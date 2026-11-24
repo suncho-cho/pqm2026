@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>PQM 2026 경품 이벤트</title>
+<style>
+  :root{--navy:#1d2a44;--red:#d62020;--line:#d9dee6;--muted:#6b7280;--bg:#f4f6f9}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--bg);color:#111;}
+  .wrap{max-width:480px;margin:0 auto;padding:20px 16px 40px}
+  header{text-align:center;padding:12px 0 18px}
+  header .ev{font-size:13px;color:var(--muted);font-weight:600}
+  header h1{margin:6px 0 4px;font-size:24px;color:var(--navy)}
+  header p{margin:0;font-size:14px;color:#374151}
+  .card{background:#fff;border-radius:14px;padding:18px 16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .card h2{font-size:15px;margin:0 0 12px;color:var(--navy)}
+  label.f{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}
+  input[type=text],input[type=tel],input[type=email]{width:100%;padding:12px;font-size:16px;border:1px solid var(--line);border-radius:10px}
+  .photoBtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border:2px dashed #9aa4b2;border-radius:12px;background:#fafbfc;font-size:16px;font-weight:700;color:var(--navy);cursor:pointer}
+  #preview{display:none;width:100%;margin-top:10px;border-radius:10px;border:1px solid var(--line)}
+  .chk{display:flex;gap:8px;align-items:flex-start;font-size:14px;margin-top:12px}
+  .chk input{width:20px;height:20px;flex:none;margin-top:1px}
+  .consent{font-size:12.5px;line-height:1.6;color:#374151;background:var(--bg);border-radius:10px;padding:12px;max-height:180px;overflow:auto}
+  .q{font-size:15px;font-weight:700;margin:0 0 10px}
+  .opt{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;font-size:15px}
+  .opt input{width:18px;height:18px}
+  #err{display:none;color:var(--red);font-size:14px;font-weight:600;margin:8px 2px}
+  button.submit{width:100%;padding:16px;font-size:17px;font-weight:800;color:#fff;background:var(--navy);border:0;border-radius:12px}
+  button.submit:disabled{opacity:.5}
+  .hidden{display:none}
+  #result{text-align:center}
+  #result .card{padding:28px 16px}
+  .big{font-size:40px;font-weight:900;margin:8px 0}
+  .win{color:var(--red)} .lose{color:#4a5568}
+  .meta{font-size:15px;color:#374151;margin-top:10px}
+  .no{font-size:28px;font-weight:900;color:var(--navy);letter-spacing:1px}
+  .show{margin-top:18px;padding:12px;background:#fff7e6;border-radius:10px;font-weight:700;font-size:15px}
+  .quizres{font-size:14px;color:var(--muted);margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="ev">PQM 2026 하반기 학술회 · Honeywell × Connexo</div>
+    <h1>경품 이벤트</h1>
+    <p>명함을 등록하고 퀴즈를 풀면 바로 결과를 확인할 수 있어요!</p>
+  </header>
+
+  <div id="form">
+    <div class="card">
+      <h2>1. 명함 등록</h2>
+      <div id="cardBox">
+        <label class="photoBtn" for="photo">📷 명함 사진 촬영하기</label>
+        <input id="photo" type="file" accept="image/*" capture="environment" class="hidden">
+        <img id="preview" alt="명함 미리보기">
+      </div>
+      <label class="chk"><input id="noCard" type="checkbox"> 명함이 없어요</label>
+      <div id="noCardBox" class="hidden">
+        <label class="f" for="company">회사명</label>
+        <input id="company" type="text" autocomplete="organization">
+        <label class="f" for="email">이메일</label>
+        <input id="email" type="email" autocomplete="email">
+      </div>
+      <label class="f" for="name">이름</label>
+      <input id="name" type="text" autocomplete="name">
+      <label class="f" for="phone">휴대폰 번호</label>
+      <input id="phone" type="tel" inputmode="numeric" placeholder="01012345678" autocomplete="tel">
+    </div>
+
+    <div class="card">
+      <h2>2. 개인정보 수집·이용 동의</h2>
+      <div class="consent">
+        <b>수집 항목:</b> 명함 사진(명함에 기재된 이름, 회사명, 부서/직급, 연락처, 이메일 등), 이름, 휴대폰 번호 (명함이 없는 경우 회사명, 이메일)<br>
+        <b>이용 목적:</b> 경품 이벤트 진행 및 중복 참여 확인, 제품·세미나 관련 정보 안내<br>
+        <b>제공받는 자:</b> 커넥소(주), 하니웰(Honeywell Technologies)<br>
+        <b>보유 기간:</b> 수집일로부터 1년 (기간 경과 시 즉시 파기)<br>
+        동의를 거부할 수 있으며, 거부 시 이벤트 참여가 제한됩니다.
+      </div>
+      <label class="chk"><input id="consent" type="checkbox"> 위 내용에 동의합니다. (필수)</label>
+    </div>
+
+    <div class="card">
+      <h2>3. 퀴즈</h2>
+      <p class="q">Q. 하니웰의 End-to-End 품질관리 솔루션 이름은?</p>
+      <label class="opt"><input type="radio" name="quiz" value="TrackWise Digital"> ① TrackWise Digital</label>
+      <label class="opt"><input type="radio" name="quiz" value="트랙와이즈 디지몬"> ② 트랙와이즈 디지몬</label>
+      <label class="opt"><input type="radio" name="quiz" value="하니버터칩"> ③ 하니버터칩</label>
+      <label class="opt"><input type="radio" name="quiz" value="꿀벌 매니저"> ④ 꿀벌 매니저 🐝</label>
+    </div>
+
+    <div id="err"></div>
+    <button id="submit" class="submit">제출하고 결과 확인하기</button>
+  </div>
+
+  <div id="result" class="hidden"><div class="card" id="resCard"></div></div>
+</div>
+
+<script>
+  var API_URL = 'https://script.google.com/macros/s/AKfycbxXiaR84Oz9EapKnjenNlsWKDJiI4-mouHPMfLavxKMmMkUTcjjDk1Q0mgchTwdTO2L/exec';
+  var imageData = '';
+  var $ = function(id){ return document.getElementById(id); };
+
+  $('noCard').addEventListener('change', function(){
+    var on = this.checked;
+    $('cardBox').classList.toggle('hidden', on);
+    $('noCardBox').classList.toggle('hidden', !on);
+  });
+
+  // 사진을 최대 1600px JPEG로 줄여서 업로드 용량을 줄임
+  $('photo').addEventListener('change', function(){
+    var file = this.files && this.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var img = new Image();
+      img.onload = function(){
+        var max = 1600, w = img.width, h = img.height;
+        if (Math.max(w, h) > max){ var s = max / Math.max(w, h); w = Math.round(w*s); h = Math.round(h*s); }
+        var c = document.createElement('canvas'); c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        var url = c.toDataURL('image/jpeg', 0.8);
+        imageData = url.split(',')[1];
+        $('preview').src = url; $('preview').style.display = 'block';
+        document.querySelector('.photoBtn').textContent = '📷 다시 촬영하기';
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function showErr(msg){ var e = $('err'); e.textContent = msg; e.style.display = msg ? 'block' : 'none'; }
+
+  $('submit').addEventListener('click', function(){
+    var quiz = document.querySelector('input[name=quiz]:checked');
+    var noCard = $('noCard').checked;
+    var p = {
+      name: $('name').value, phone: $('phone').value, noCard: noCard,
+      company: $('company').value, email: $('email').value,
+      consent: $('consent').checked, quiz: quiz ? quiz.value : '',
+      image: noCard ? '' : imageData
+    };
+    if (!noCard && !p.image) return showErr('명함 사진을 촬영해 주세요.');
+    if (noCard && (!p.company.trim() || !p.email.trim())) return showErr('회사명과 이메일을 입력해 주세요.');
+    if (!p.name.trim()) return showErr('이름을 입력해 주세요.');
+    var digits = p.phone.replace(/\D/g, '');
+    if (digits.length < 10 || digits.length > 11) return showErr('휴대폰 번호를 확인해 주세요.');
+    if (!p.consent) return showErr('개인정보 수집·이용에 동의해 주세요.');
+    if (!p.quiz) return showErr('퀴즈 답을 선택해 주세요.');
+    showErr('');
+    var btn = this; btn.disabled = true; btn.textContent = '추첨 중...';
+    fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(p)
+    }).then(function(res){ return res.json(); })
+      .then(function(r){
+        if (r.ok) return showResult(r);
+        throw new Error(r.error || '오류가 발생했어요. 다시 시도해 주세요.');
+      })
+      .catch(function(err){
+        btn.disabled = false; btn.textContent = '제출하고 결과 확인하기';
+        showErr(err && err.message && !/fetch|network|JSON/i.test(err.message) ? err.message : '연결이 원활하지 않아요. 잠시 후 다시 시도해 주세요.');
+      });
+  });
+
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  function showResult(r){
+    var head;
+    if (r.prize === '보조배터리') head = '<div style="font-size:44px">🎉</div><div class="big win">당첨!</div><div style="font-size:18px;font-weight:800">보조배터리를 받아가세요</div>';
+    else if (r.prize === '수건') head = '<div style="font-size:44px">🎁</div><div class="big lose">참여 감사합니다!</div><div style="font-size:18px;font-weight:800">수건을 받아가세요</div>';
+    else head = '<div class="big lose">경품이 모두 소진되었어요</div><div style="font-size:16px">참여해 주셔서 감사합니다.</div>';
+    var dup = r.duplicate ? '<div class="show" style="background:#eef2ff">이미 참여하셨어요. 처음 참여한 결과입니다.</div>' : '';
+    var quiz = r.correct ? '퀴즈 정답! TrackWise Digital 맞아요 👍' : '퀴즈 정답은 ① TrackWise Digital 이었어요.';
+    $('resCard').innerHTML = dup + head +
+      '<div class="meta">참여번호</div><div class="no">No. ' + ('00' + esc(r.entryNo)).slice(-3) + '</div>' +
+      '<div class="meta">' + esc(r.name) + '님 · ' + esc(r.time) + '</div>' +
+      '<div class="show">이 화면을 부스 직원에게 보여주세요</div>' +
+      '<div class="quizres">' + quiz + '</div>';
+    $('form').classList.add('hidden');
+    $('result').classList.remove('hidden');
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
